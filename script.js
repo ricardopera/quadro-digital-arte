@@ -190,12 +190,42 @@ document.addEventListener('DOMContentLoaded', () => {
     new ArtGallery();
 });
 
-// Esconder cursor após inatividade
-let cursorTimeout;
-document.addEventListener('mousemove', () => {
+// Esconder controles após inatividade do mouse
+let controlsTimeout;
+const controls = document.getElementById('controls');
+
+function showControls() {
+    controls.classList.remove('hidden');
     document.body.style.cursor = 'default';
-    clearTimeout(cursorTimeout);
-    cursorTimeout = setTimeout(() => {
-        document.body.style.cursor = 'none';
-    }, 3000);
+}
+
+function hideControls() {
+    controls.classList.add('hidden');
+    document.body.style.cursor = 'none';
+}
+
+document.addEventListener('mousemove', () => {
+    showControls();
+    clearTimeout(controlsTimeout);
+    controlsTimeout = setTimeout(() => {
+        hideControls();
+    }, 2000); // 2 segundos
 });
+
+// Mostrar controles quando hover nos botões
+controls.addEventListener('mouseenter', () => {
+    showControls();
+    clearTimeout(controlsTimeout);
+});
+
+// Iniciar timer quando sair dos controles
+controls.addEventListener('mouseleave', () => {
+    controlsTimeout = setTimeout(() => {
+        hideControls();
+    }, 2000);
+});
+
+// Esconder controles inicialmente após 2 segundos
+setTimeout(() => {
+    hideControls();
+}, 2000);
