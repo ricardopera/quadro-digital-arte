@@ -92,3 +92,5 @@ Todas as obras de arte exibidas são de **domínio público**. O código é livr
 ---
 
 *Desenvolvido com 💜 para transformar sua sala em uma galeria de arte*
+
+<!-- Deploy trigger: 2026-01-29 -->
