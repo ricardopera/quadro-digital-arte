@@ -2,26 +2,151 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quadro Digital de Arte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Galeria Digital de Arte</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="frame">
-        <div class="artwork-container">
-            <img id="artwork" src="" alt="Obra de Arte">
-            <div class="artwork-info">
-                <h1 id="title"></h1>
-                <p id="artist"></p>
-                <p id="year"></p>
+    <!-- Container Principal da Galeria -->
+    <div class="gallery-container">
+        <!-- Fundo com gradiente dinâmico -->
+        <div class="dynamic-background" id="dynamicBg"></div>
+        
+        <!-- Moldura Clássica -->
+        <div class="frame-outer">
+            <div class="frame-ornament top-left"></div>
+            <div class="frame-ornament top-right"></div>
+            <div class="frame-ornament bottom-left"></div>
+            <div class="frame-ornament bottom-right"></div>
+            
+            <div class="frame-inner">
+                <div class="artwork-wrapper">
+                    <img id="artwork" src="" alt="Obra de Arte" class="artwork">
+                    <img id="artworkNext" src="" alt="" class="artwork artwork-hidden">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Informações da Obra -->
+        <div class="artwork-info" id="artworkInfo">
+            <div class="info-content">
+                <h1 id="title" class="artwork-title"></h1>
+                <div class="artwork-meta">
+                    <span id="artist" class="artwork-artist"></span>
+                    <span class="meta-separator">•</span>
+                    <span id="year" class="artwork-year"></span>
+                </div>
+                <p id="source" class="artwork-source"></p>
+            </div>
+        </div>
+        
+        <!-- Modo Museu - Informações Detalhadas -->
+        <div class="museum-panel" id="museumPanel">
+            <div class="museum-content">
+                <h2 id="museumTitle"></h2>
+                <div class="museum-details">
+                    <p><strong>Artista:</strong> <span id="museumArtist"></span></p>
+                    <p><strong>Ano:</strong> <span id="museumYear"></span></p>
+                    <p><strong>Fonte:</strong> <span id="museumSource"></span></p>
+                </div>
+                <div class="museum-counter">
+                    <span id="currentNum"></span> / <span id="totalNum"></span>
+                </div>
             </div>
         </div>
     </div>
     
-    <div class="controls">
-        <button id="prev" aria-label="Anterior">◀</button>
-        <button id="playpause" aria-label="Reproduzir/Pausar">⏸</button>
-        <button id="next" aria-label="Próximo">▶</button>
+    <!-- Controles Discretos -->
+    <div class="controls" id="controls">
+        <button id="prev" class="control-btn" aria-label="Anterior" title="Obra anterior (←)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+        </button>
+        
+        <button id="playpause" class="control-btn play-btn" aria-label="Reproduzir/Pausar" title="Play/Pause (Espaço)">
+            <svg id="pauseIcon" viewBox="0 0 24 24" fill="currentColor">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor" class="hidden">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+        </button>
+        
+        <button id="next" class="control-btn" aria-label="Próximo" title="Próxima obra (→)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </button>
+        
+        <div class="control-separator"></div>
+        
+        <button id="museum" class="control-btn" aria-label="Modo Museu" title="Informações detalhadas (M)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+        </button>
+        
+        <button id="fullscreen" class="control-btn" aria-label="Tela Cheia" title="Tela cheia (F)">
+            <svg id="expandIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <polyline points="9 21 3 21 3 15"></polyline>
+                <line x1="21" y1="3" x2="14" y2="10"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+            <svg id="compressIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden">
+                <polyline points="4 14 10 14 10 20"></polyline>
+                <polyline points="20 10 14 10 14 4"></polyline>
+                <line x1="14" y1="10" x2="21" y2="3"></line>
+                <line x1="3" y1="21" x2="10" y2="14"></line>
+            </svg>
+        </button>
+    </div>
+    
+    <!-- Configurações -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-content">
+            <h3>Configurações</h3>
+            <div class="setting-item">
+                <label for="intervalSlider">Intervalo: <span id="intervalValue">45s</span></label>
+                <input type="range" id="intervalSlider" min="30" max="120" value="45" step="15">
+            </div>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="kenBurnsToggle" checked>
+                    Efeito Ken Burns
+                </label>
+            </div>
+            <div class="setting-item">
+                <label>
+                    <input type="checkbox" id="autoHideInfo" checked>
+                    Ocultar info automaticamente
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <button id="settingsBtn" class="settings-btn" aria-label="Configurações" title="Configurações (S)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+    </button>
+    
+    <!-- Progress Bar -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+    
+    <!-- Loading Indicator -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
     </div>
     
     <script src="script.js"></script>
