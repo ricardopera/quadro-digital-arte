@@ -160,6 +160,233 @@ const artworks = [
         year: "c. 1649",
         url: "https://images.metmuseum.org/CRDImages/ep/original/DP145898.jpg",
         source: "Metropolitan Museum of Art"
+    },
+
+    // ══════════════════════════════════════════════════════════════════════
+    // NOVAS OBRAS HD - IMPRESSIONISMO & PÓS-IMPRESSIONISMO
+    // Luz, cor e movimento captados em alta resolução
+    // ══════════════════════════════════════════════════════════════════════
+    {
+        title: "Ciprestes",
+        artist: "Vincent van Gogh",
+        year: "1889",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP130999.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "Girassóis",
+        artist: "Vincent van Gogh",
+        year: "1887",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP-41223-001.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "A Família Monet no Jardim de Argenteuil",
+        artist: "Édouard Manet",
+        year: "1874",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP-25465-001.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "Passeio de Barco",
+        artist: "Édouard Manet",
+        year: "1874",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP-25466-001.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "Jovem com Papagaio",
+        artist: "Édouard Manet",
+        year: "1866",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP273977.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "Mont Sainte-Victoire",
+        artist: "Paul Cézanne",
+        year: "1882-85",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP-20099-001.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "Ia Orana Maria (Ave Maria)",
+        artist: "Paul Gauguin",
+        year: "1891",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DT1025.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    
+    // ══════════════════════════════════════════════════════════════════════
+    // RENASCIMENTO & BARROCO - Mestres da Luz e da Sombra
+    // ══════════════════════════════════════════════════════════════════════
+    {
+        title: "Vênus e Adônis",
+        artist: "Ticiano",
+        year: "1550s",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP-19299-001.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "Cardeal Fernando Niño de Guevara",
+        artist: "El Greco",
+        year: "c. 1600",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DP-17777-001.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    {
+        title: "Retratos de Tommaso e Maria Portinari",
+        artist: "Hans Memling",
+        year: "c. 1470",
+        url: "https://images.metmuseum.org/CRDImages/ep/original/DT28_DT29.jpg",
+        source: "Metropolitan Museum of Art"
+    },
+    
+    // ══════════════════════════════════════════════════════════════════════
+    // ART INSTITUTE OF CHICAGO - Obras-primas em IIIF Alta Resolução
+    // ══════════════════════════════════════════════════════════════════════
+    {
+        title: "Um Domingo na Grande Jatte",
+        artist: "Georges Seurat",
+        year: "1884-86",
+        url: "https://www.artic.edu/iiif/2/2d484387-2509-5e8e-2c43-22f9981972eb/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    {
+        title: "Nenúfares",
+        artist: "Claude Monet",
+        year: "1906",
+        url: "https://www.artic.edu/iiif/2/3c27b499-af56-f0d5-93b5-a7f2f1ad5813/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    {
+        title: "O Quarto de Van Gogh em Arles",
+        artist: "Vincent van Gogh",
+        year: "1889",
+        url: "https://www.artic.edu/iiif/2/25c31d8d-21a4-9ea1-1d73-6a2eca4dda7e/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    {
+        title: "Autorretrato",
+        artist: "Vincent van Gogh",
+        year: "1887",
+        url: "https://www.artic.edu/iiif/2/47c5bcb8-62ef-e5d7-55e7-f5121f409a30/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    {
+        title: "Chegada do Trem de Normandia, Gare Saint-Lazare",
+        artist: "Claude Monet",
+        year: "1877",
+        url: "https://www.artic.edu/iiif/2/0f1cc0e0-e42e-be16-3f71-2022da38cb93/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    {
+        title: "O Banho da Criança",
+        artist: "Mary Cassatt",
+        year: "1893",
+        url: "https://www.artic.edu/iiif/2/3b885ae0-4d46-5fe4-d70a-00474827f02c/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    {
+        title: "Rua de Paris em Dia de Chuva",
+        artist: "Gustave Caillebotte",
+        year: "1877",
+        url: "https://www.artic.edu/iiif/2/f8fd76e9-c396-5678-36ed-6a348c904d27/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    {
+        title: "A Assunção da Virgem",
+        artist: "El Greco",
+        year: "1577-79",
+        url: "https://www.artic.edu/iiif/2/47fd1564-93f5-f30b-7786-013421133b4a/full/1200,/0/default.jpg",
+        source: "Art Institute of Chicago"
+    },
+    
+    // ══════════════════════════════════════════════════════════════════════
+    // WIKIMEDIA COMMONS - Obras Clássicas em Alta Resolução
+    // ══════════════════════════════════════════════════════════════════════
+    {
+        title: "A Ronda Noturna",
+        artist: "Rembrandt van Rijn",
+        year: "1642",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5a/The_Night_Watch_-_HD.jpg/1280px-The_Night_Watch_-_HD.jpg",
+        source: "Rijksmuseum / Wikimedia Commons"
+    },
+    {
+        title: "A Leiteira",
+        artist: "Johannes Vermeer",
+        year: "c. 1658",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Johannes_Vermeer_-_Het_melkmeisje_-_Google_Art_Project.jpg/1024px-Johannes_Vermeer_-_Het_melkmeisje_-_Google_Art_Project.jpg",
+        source: "Rijksmuseum / Wikimedia Commons"
+    },
+    {
+        title: "O Beijo",
+        artist: "Gustav Klimt",
+        year: "1907-08",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg/1024px-The_Kiss_-_Gustav_Klimt_-_Google_Cultural_Institute.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "O Carro de Feno",
+        artist: "John Constable",
+        year: "1821",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/John_Constable_The_Hay_Wain.jpg/1280px-John_Constable_The_Hay_Wain.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "O Navio Negreiro",
+        artist: "J.M.W. Turner",
+        year: "1840",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Slave-ship.jpg/1280px-Slave-ship.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "Impressão, Nascer do Sol",
+        artist: "Claude Monet",
+        year: "1872",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Monet_-_Impression%2C_Sunrise.jpg/1280px-Monet_-_Impression%2C_Sunrise.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "Baile no Moulin de la Galette",
+        artist: "Pierre-Auguste Renoir",
+        year: "1876",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Pierre-Auguste_Renoir%2C_Le_Moulin_de_la_Galette.jpg/1280px-Pierre-Auguste_Renoir%2C_Le_Moulin_de_la_Galette.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "Almoço na Relva",
+        artist: "Édouard Manet",
+        year: "1863",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Edouard_Manet_-_Luncheon_on_the_Grass_-_Google_Art_Project.jpg/1280px-Edouard_Manet_-_Luncheon_on_the_Grass_-_Google_Art_Project.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "A Vocação de São Mateus",
+        artist: "Caravaggio",
+        year: "1599-1600",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/The_Calling_of_Saint_Matthew-Caravaggo_%281599-1600%29.jpg/1280px-The_Calling_of_Saint_Matthew-Caravaggo_%281599-1600%29.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "A Primavera",
+        artist: "Sandro Botticelli",
+        year: "c. 1482",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Botticelli-primavera.jpg/1280px-Botticelli-primavera.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "A Escola de Atenas",
+        artist: "Rafael Sanzio",
+        year: "1509-11",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg/1280px-%22The_School_of_Athens%22_by_Raffaello_Sanzio_da_Urbino.jpg",
+        source: "Wikimedia Commons"
+    },
+    {
+        title: "O Jardim das Delícias Terrenas (Painel Central)",
+        artist: "Hieronymus Bosch",
+        year: "c. 1490-1510",
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/The_Garden_of_earthly_delights.jpg/1280px-The_Garden_of_earthly_delights.jpg",
+        source: "Wikimedia Commons"
     }
 ];
 
