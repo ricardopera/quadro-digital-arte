@@ -1,8 +1,7 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════
- * QUADRO DIGITAL DE ARTE
- * Um portal místico onde a eternidade encontra o presente
- * Cada pincelada, um fragmento de alma imortalizada
+ * GALERIA DIGITAL DE ARTE - Interface Premium
+ * Uma experiência contemplativa e imersiva
  * ═══════════════════════════════════════════════════════════════════════════
  */
 
@@ -60,8 +59,7 @@ const artworks = [
     },
     
     // ══════════════════════════════════════════════════════════════════════
-    // NOVAS OBRAS - METROPOLITAN MUSEUM OF ART
-    // Tesouros de domínio público revelados ao mundo digital
+    // METROPOLITAN MUSEUM OF ART
     // ══════════════════════════════════════════════════════════════════════
     {
         title: "Campo de Trigo com Ciprestes",
@@ -161,11 +159,6 @@ const artworks = [
         url: "https://images.metmuseum.org/CRDImages/ep/original/DP145898.jpg",
         source: "Metropolitan Museum of Art"
     },
-
-    // ══════════════════════════════════════════════════════════════════════
-    // NOVAS OBRAS HD - IMPRESSIONISMO & PÓS-IMPRESSIONISMO
-    // Luz, cor e movimento captados em alta resolução
-    // ══════════════════════════════════════════════════════════════════════
     {
         title: "Ciprestes",
         artist: "Vincent van Gogh",
@@ -215,10 +208,6 @@ const artworks = [
         url: "https://images.metmuseum.org/CRDImages/ep/original/DT1025.jpg",
         source: "Metropolitan Museum of Art"
     },
-    
-    // ══════════════════════════════════════════════════════════════════════
-    // RENASCIMENTO & BARROCO - Mestres da Luz e da Sombra
-    // ══════════════════════════════════════════════════════════════════════
     {
         title: "Vênus e Adônis",
         artist: "Ticiano",
@@ -242,7 +231,7 @@ const artworks = [
     },
     
     // ══════════════════════════════════════════════════════════════════════
-    // ART INSTITUTE OF CHICAGO - Obras-primas em IIIF Alta Resolução
+    // ART INSTITUTE OF CHICAGO
     // ══════════════════════════════════════════════════════════════════════
     {
         title: "Um Domingo na Grande Jatte",
@@ -302,7 +291,7 @@ const artworks = [
     },
     
     // ══════════════════════════════════════════════════════════════════════
-    // WIKIMEDIA COMMONS - Obras Clássicas em Alta Resolução
+    // WIKIMEDIA COMMONS - Alta Resolução
     // ══════════════════════════════════════════════════════════════════════
     {
         title: "A Ronda Noturna",
@@ -390,140 +379,296 @@ const artworks = [
     }
 ];
 
-// ══════════════════════════════════════════════════════════════════════════
-// ESTADO DA GALERIA - O Presente Eterno
-// ══════════════════════════════════════════════════════════════════════════
-let currentIndex = 0;
-let isPlaying = true;
-let slideInterval;
-const SLIDE_DURATION = 15000; // 15 segundos - tempo para contemplação
+// ═══════════════════════════════════════════════════════════════════════════
+// ESTADO DA GALERIA
+// ═══════════════════════════════════════════════════════════════════════════
 
-// ══════════════════════════════════════════════════════════════════════════
-// ELEMENTOS DO DOM - Janelas para a Alma
-// ══════════════════════════════════════════════════════════════════════════
-const artworkImg = document.getElementById('artwork');
-const titleEl = document.getElementById('title');
-const artistEl = document.getElementById('artist');
-const yearEl = document.getElementById('year');
-const prevBtn = document.getElementById('prev');
-const playPauseBtn = document.getElementById('playpause');
-const nextBtn = document.getElementById('next');
+const state = {
+    currentIndex: 0,
+    isPlaying: true,
+    isTransitioning: false,
+    slideInterval: null,
+    progressInterval: null,
+    activityTimeout: null,
+    progress: 0
+};
 
-// ══════════════════════════════════════════════════════════════════════════
-// FUNÇÕES PRINCIPAIS - O Fluxo do Tempo
-// ══════════════════════════════════════════════════════════════════════════
+const CONFIG = {
+    SLIDE_DURATION: 18000,      // 18 segundos por obra
+    TRANSITION_DURATION: 2500, // 2.5 segundos de fade
+    ACTIVITY_TIMEOUT: 3000,    // 3 segundos até esconder UI
+    PROGRESS_UPDATE: 50        // Atualização da barra de progresso
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ELEMENTOS DO DOM
+// ═══════════════════════════════════════════════════════════════════════════
+
+const elements = {
+    gallery: document.querySelector('.gallery'),
+    artwork: document.getElementById('artwork'),
+    artworkNext: document.getElementById('artwork-next'),
+    title: document.getElementById('title'),
+    artist: document.getElementById('artist'),
+    year: document.getElementById('year'),
+    info: document.getElementById('info'),
+    controls: document.getElementById('controls'),
+    prevBtn: document.getElementById('prev'),
+    playPauseBtn: document.getElementById('playpause'),
+    nextBtn: document.getElementById('next'),
+    progress: document.getElementById('progress'),
+    currentNum: document.getElementById('current-num'),
+    totalNum: document.getElementById('total-num')
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// FUNÇÕES PRINCIPAIS
+// ═══════════════════════════════════════════════════════════════════════════
 
 /**
- * Exibe uma obra de arte com transição suave
- * Como um véu que se ergue para revelar a eternidade
+ * Embaralha as obras para experiência única
  */
-function displayArtwork(index) {
+function shuffleArtworks() {
+    for (let i = artworks.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [artworks[i], artworks[j]] = [artworks[j], artworks[i]];
+    }
+}
+
+/**
+ * Pré-carrega uma imagem
+ */
+function preloadImage(url) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = reject;
+        img.src = url;
+    });
+}
+
+/**
+ * Exibe uma obra com transição suave
+ */
+async function displayArtwork(index, immediate = false) {
+    if (state.isTransitioning && !immediate) return;
+    state.isTransitioning = true;
+    
     const artwork = artworks[index];
     
-    // Fade out
-    artworkImg.classList.add('fade-out');
-    artworkImg.classList.remove('fade-in');
+    // Esconde info durante transição
+    elements.info.classList.remove('visible', 'entering');
     
-    setTimeout(() => {
-        artworkImg.src = artwork.url;
-        artworkImg.alt = artwork.title;
-        titleEl.textContent = artwork.title;
-        artistEl.textContent = artwork.artist;
-        yearEl.textContent = artwork.year;
-        
-        // Fade in quando a imagem carregar
-        artworkImg.onload = () => {
-            artworkImg.classList.remove('fade-out');
-            artworkImg.classList.add('fade-in');
-        };
-    }, 750);
+    // Fade out atual
+    elements.artwork.classList.add('fade-out');
+    elements.artwork.classList.remove('kenburns');
+    
+    // Pré-carrega próxima imagem
+    try {
+        await preloadImage(artwork.url);
+    } catch (e) {
+        console.warn('Falha ao carregar:', artwork.title);
+    }
+    
+    // Aguarda transição
+    await sleep(immediate ? 100 : CONFIG.TRANSITION_DURATION);
+    
+    // Atualiza imagem e info
+    elements.artwork.src = artwork.url;
+    elements.artwork.alt = artwork.title;
+    elements.title.textContent = artwork.title;
+    elements.artist.textContent = artwork.artist;
+    elements.year.textContent = artwork.year;
+    
+    // Atualiza contador
+    elements.currentNum.textContent = index + 1;
+    
+    // Fade in
+    elements.artwork.classList.remove('fade-out');
+    elements.artwork.classList.add('fade-in', 'kenburns');
+    
+    // Mostra info com animação
+    await sleep(800);
+    elements.info.classList.add('visible', 'entering');
+    
+    state.isTransitioning = false;
+    
+    // Reset progress
+    resetProgress();
 }
 
 /**
- * Avança para a próxima obra
- * O tempo flui eternamente para frente
+ * Navega para próxima obra
  */
 function nextArtwork() {
-    currentIndex = (currentIndex + 1) % artworks.length;
-    displayArtwork(currentIndex);
+    state.currentIndex = (state.currentIndex + 1) % artworks.length;
+    displayArtwork(state.currentIndex);
+    
+    // Pré-carrega a próxima
+    const nextIndex = (state.currentIndex + 1) % artworks.length;
+    preloadImage(artworks[nextIndex].url);
 }
 
 /**
- * Retorna à obra anterior
- * Uma jornada ao passado, onde a beleza aguarda
+ * Navega para obra anterior
  */
 function prevArtwork() {
-    currentIndex = (currentIndex - 1 + artworks.length) % artworks.length;
-    displayArtwork(currentIndex);
+    state.currentIndex = (state.currentIndex - 1 + artworks.length) % artworks.length;
+    displayArtwork(state.currentIndex);
 }
 
 /**
- * Alterna entre reprodução e pausa
- * O controle do tempo nas mãos do contemplador
+ * Alterna play/pause
  */
 function togglePlayPause() {
-    isPlaying = !isPlaying;
-    playPauseBtn.textContent = isPlaying ? '⏸' : '▶';
+    state.isPlaying = !state.isPlaying;
     
-    if (isPlaying) {
+    const iconPause = elements.playPauseBtn.querySelector('.icon-pause');
+    const iconPlay = elements.playPauseBtn.querySelector('.icon-play');
+    
+    if (state.isPlaying) {
+        iconPause.classList.remove('hidden');
+        iconPlay.classList.add('hidden');
         startSlideshow();
     } else {
+        iconPause.classList.add('hidden');
+        iconPlay.classList.remove('hidden');
         stopSlideshow();
     }
 }
 
 /**
- * Inicia a apresentação automática
- * O rio do tempo começa a fluir
+ * Inicia slideshow
  */
 function startSlideshow() {
-    slideInterval = setInterval(nextArtwork, SLIDE_DURATION);
+    stopSlideshow();
+    state.slideInterval = setInterval(() => {
+        if (!state.isTransitioning) {
+            nextArtwork();
+        }
+    }, CONFIG.SLIDE_DURATION);
+    startProgress();
 }
 
 /**
- * Pausa a apresentação
- * Um momento de contemplação infinita
+ * Para slideshow
  */
 function stopSlideshow() {
-    clearInterval(slideInterval);
+    clearInterval(state.slideInterval);
+    clearInterval(state.progressInterval);
 }
 
-// ══════════════════════════════════════════════════════════════════════════
-// EVENT LISTENERS - Os Sentidos Despertos
-// ══════════════════════════════════════════════════════════════════════════
+/**
+ * Inicia barra de progresso
+ */
+function startProgress() {
+    clearInterval(state.progressInterval);
+    state.progress = 0;
+    
+    state.progressInterval = setInterval(() => {
+        state.progress += (CONFIG.PROGRESS_UPDATE / CONFIG.SLIDE_DURATION) * 100;
+        if (state.progress > 100) state.progress = 100;
+        elements.progress.style.width = state.progress + '%';
+    }, CONFIG.PROGRESS_UPDATE);
+}
 
-// Botões de controle
-prevBtn.addEventListener('click', () => {
+/**
+ * Reset progresso
+ */
+function resetProgress() {
+    state.progress = 0;
+    elements.progress.style.width = '0%';
+    if (state.isPlaying) {
+        startProgress();
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// SISTEMA DE ATIVIDADE (UI AUTO-HIDE)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function showActivity() {
+    document.body.classList.add('active');
+    clearTimeout(state.activityTimeout);
+    
+    state.activityTimeout = setTimeout(() => {
+        document.body.classList.remove('active');
+    }, CONFIG.ACTIVITY_TIMEOUT);
+}
+
+function hideActivity() {
+    document.body.classList.remove('active');
+    clearTimeout(state.activityTimeout);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MODO CONTEMPLAÇÃO (duplo clique ou tecla C)
+// ═══════════════════════════════════════════════════════════════════════════
+
+function toggleContemplation() {
+    document.body.classList.toggle('contemplation');
+    
+    if (document.body.classList.contains('contemplation')) {
+        hideActivity();
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILIDADES
+// ═══════════════════════════════════════════════════════════════════════════
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// EVENT LISTENERS
+// ═══════════════════════════════════════════════════════════════════════════
+
+// Movimento do mouse
+document.addEventListener('mousemove', showActivity);
+
+// Touch para dispositivos móveis
+document.addEventListener('touchstart', showActivity);
+
+// Clique nos controles
+elements.prevBtn.addEventListener('click', () => {
     prevArtwork();
-    if (isPlaying) {
+    if (state.isPlaying) {
         stopSlideshow();
         startSlideshow();
     }
 });
 
-nextBtn.addEventListener('click', () => {
+elements.nextBtn.addEventListener('click', () => {
     nextArtwork();
-    if (isPlaying) {
+    if (state.isPlaying) {
         stopSlideshow();
         startSlideshow();
     }
 });
 
-playPauseBtn.addEventListener('click', togglePlayPause);
+elements.playPauseBtn.addEventListener('click', togglePlayPause);
 
-// Controles por teclado - para controle remoto de Smart TV
+// Duplo clique para modo contemplação
+document.addEventListener('dblclick', toggleContemplation);
+
+// Teclado
 document.addEventListener('keydown', (e) => {
+    // Mostra UI
+    showActivity();
+    
     switch(e.key) {
         case 'ArrowLeft':
             prevArtwork();
-            if (isPlaying) {
+            if (state.isPlaying) {
                 stopSlideshow();
                 startSlideshow();
             }
             break;
         case 'ArrowRight':
             nextArtwork();
-            if (isPlaying) {
+            if (state.isPlaying) {
                 stopSlideshow();
                 startSlideshow();
             }
@@ -533,41 +678,81 @@ document.addEventListener('keydown', (e) => {
             togglePlayPause();
             e.preventDefault();
             break;
+        case 'c':
+        case 'C':
+            toggleContemplation();
+            break;
+        case 'Escape':
+            document.body.classList.remove('contemplation');
+            break;
     }
 });
 
-// ══════════════════════════════════════════════════════════════════════════
-// INICIALIZAÇÃO - O Despertar
-// ══════════════════════════════════════════════════════════════════════════
-
-// Embaralhar as obras para uma experiência única a cada visita
-function shuffleArtworks() {
-    for (let i = artworks.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [artworks[i], artworks[j]] = [artworks[j], artworks[i]];
+// Visibilidade da página
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        stopSlideshow();
+    } else if (state.isPlaying) {
+        startSlideshow();
     }
-}
+});
 
-// Iniciar a jornada
-shuffleArtworks();
-displayArtwork(currentIndex);
-startSlideshow();
+// ═══════════════════════════════════════════════════════════════════════════
+// INICIALIZAÇÃO
+// ═══════════════════════════════════════════════════════════════════════════
 
-// Pré-carregar próxima imagem para transições suaves
-function preloadNext() {
-    const nextIndex = (currentIndex + 1) % artworks.length;
-    const img = new Image();
-    img.src = artworks[nextIndex].url;
-}
-
-setInterval(preloadNext, SLIDE_DURATION / 2);
-
-console.log(`
+async function init() {
+    // Mostra loader
+    elements.gallery.classList.add('loading');
+    
+    // Embaralha obras
+    shuffleArtworks();
+    
+    // Atualiza total
+    elements.totalNum.textContent = artworks.length;
+    
+    // Pré-carrega primeira imagem
+    try {
+        await preloadImage(artworks[0].url);
+    } catch (e) {
+        console.warn('Falha ao carregar primeira obra');
+    }
+    
+    // Remove loader
+    elements.gallery.classList.remove('loading');
+    
+    // Exibe primeira obra
+    await displayArtwork(0, true);
+    
+    // Inicia slideshow
+    startSlideshow();
+    
+    // Mostra UI brevemente
+    showActivity();
+    
+    // Pré-carrega próximas
+    preloadImage(artworks[1].url);
+    preloadImage(artworks[2].url);
+    
+    console.log(`
 ╔═══════════════════════════════════════════════════════════════════════════╗
-║                     QUADRO DIGITAL DE ARTE                               ║
-║            "A arte é a mentira que nos permite conhecer a verdade"       ║
-║                          — Pablo Picasso                                  ║
+║                     GALERIA DIGITAL DE ARTE                               ║
+║                       Interface Premium v2                                ║
+║                                                                           ║
+║   Controles:                                                              ║
+║   ← →     Navegar entre obras                                             ║
+║   Espaço  Play/Pause                                                      ║
+║   C       Modo contemplação (UI oculta)                                   ║
+║   Duplo clique também ativa modo contemplação                             ║
 ║                                                                           ║
 ║   ${artworks.length} obras-primas aguardam sua contemplação...                       ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
-`);
+    `);
+}
+
+// Inicia quando DOM estiver pronto
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+} else {
+    init();
+}
