@@ -1,0 +1,186 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   QUADRO DIGITAL DE ARTE - Estilos Místicos
+   Onde a tecnologia encontra a eternidade da arte
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    overflow: hidden;
+}
+
+/* A Moldura - Portal para outros mundos */
+.frame {
+    background: linear-gradient(145deg, #8b6914 0%, #d4af37 25%, #f4d03f 50%, #d4af37 75%, #8b6914 100%);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 
+        0 0 0 4px #1a1a2e,
+        0 0 0 8px #d4af37,
+        0 0 60px rgba(212, 175, 55, 0.3),
+        inset 0 0 20px rgba(0, 0, 0, 0.3);
+    max-width: 90vw;
+    max-height: 80vh;
+}
+
+.artwork-container {
+    position: relative;
+    background: #0a0a0a;
+    overflow: hidden;
+}
+
+#artwork {
+    display: block;
+    max-width: 85vw;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transition: opacity 1.5s ease-in-out;
+}
+
+#artwork.fade-out {
+    opacity: 0;
+}
+
+#artwork.fade-in {
+    opacity: 1;
+}
+
+/* Informações da Obra - Sussurros do Passado */
+.artwork-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+    padding: 40px 20px 20px;
+    color: #f5f5dc;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.artwork-container:hover .artwork-info {
+    opacity: 1;
+}
+
+.artwork-info h1 {
+    font-size: 1.5rem;
+    font-weight: normal;
+    font-style: italic;
+    margin-bottom: 8px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.artwork-info p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin: 4px 0;
+}
+
+#artist {
+    color: #d4af37;
+}
+
+/* Controles - Mãos que Guiam o Tempo */
+.controls {
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+body:hover .controls {
+    opacity: 1;
+}
+
+.controls button {
+    background: linear-gradient(145deg, #2a2a4a, #1a1a2e);
+    border: 2px solid #d4af37;
+    color: #d4af37;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.controls button:hover {
+    background: linear-gradient(145deg, #d4af37, #8b6914);
+    color: #1a1a2e;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+}
+
+.controls button:active {
+    transform: scale(0.95);
+}
+
+/* Responsividade para Smart TVs */
+@media (min-width: 1920px) {
+    .frame {
+        padding: 30px;
+    }
+    
+    .artwork-info h1 {
+        font-size: 2.5rem;
+    }
+    
+    .artwork-info p {
+        font-size: 1.5rem;
+    }
+    
+    .controls button {
+        width: 70px;
+        height: 70px;
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .frame {
+        padding: 10px;
+    }
+    
+    .artwork-info {
+        opacity: 1;
+        padding: 20px 10px 10px;
+    }
+    
+    .artwork-info h1 {
+        font-size: 1rem;
+    }
+    
+    .artwork-info p {
+        font-size: 0.8rem;
+    }
+    
+    .controls {
+        opacity: 1;
+    }
+}
+
+/* Animação de loading - Contemplação */
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 2s infinite;
+}
